@@ -25,7 +25,8 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # React to user input
-if prompt := st.chat_input("What is up?"):
+prompt = st.chat_input("What is up?")
+if prompt:
     # Display user message in chat message
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -48,7 +49,7 @@ if prompt := st.chat_input("What is up?"):
             ):
                 full_response += response.choices[0].delta.get("content", "")
                 message_placeholder.markdown(full_response + "")
-        except openai.RateLimitError as RLE:
+        except openai.error.RateLimitError as RLE:
             st.write("Rate Limit Reached: Please wait for 30 seconds then ReRun the application.")
 
         message_placeholder.markdown(full_response)
